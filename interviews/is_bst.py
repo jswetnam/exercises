@@ -3,6 +3,10 @@
 # Write a function that checks to see if a
 # binary tree is a binary search tree.
 
+# I use the property that an in-order traversal of a
+# binary search tree will produce an ordered list to 
+# determine whether the tree is sorted.
+
 # Phone interview conducted on 2/15/2013
 
 class Node:
