@@ -24,19 +24,13 @@ MinHeap* NewMinHeap() {
 }
 
 // Return the index of the parent of the element at index i.
-int Parent(int i) {
-  return i / 2;
-}
+int Parent(int i) { return i / 2; }
 
 // Return the index of the left child of the element at index i
-int LeftChild(int i) {
-  return 2 * i;
-}
+int LeftChild(int i) { return 2 * i; }
 
 // Return the index of the right child of the element at index i
-int RightChild(int i) {
-  return 2 * i + 1;
-}
+int RightChild(int i) { return 2 * i + 1; }
 
 // Push a new element onto the heap.
 void Push(MinHeap* heap, int new_element) {
@@ -53,6 +47,30 @@ void Push(MinHeap* heap, int new_element) {
   }
 }
 
+void MinHeapify(MinHeap* heap, int root) {
+  if (root > heap->size - 1) { return; }
+  if (heap->values[root] > heap->values[LeftChild(root)]) {
+    int tmp = heap->values[root];
+    heap->values[root] = heap->values[LeftChild(root)];
+    heap->values[LeftChild(root)] = tmp;
+    MinHeapify(heap, LeftChild(root));
+  }
+  if (heap->values[root] > heap->values[RightChild(root)]) {
+    int tmp = heap->values[root];
+    heap->values[root] = heap->values[RightChild(root)];
+    heap->values[RightChild(root)] = tmp;
+    MinHeapify(heap, RightChild(root));
+  }
+}
+
+int RemoveMin(MinHeap* heap) {
+  int min = heap->values[0];
+  heap->values[0] = heap->values[heap->size - 1];
+  heap->size--;
+  MinHeapify(heap, 0);
+  return min;
+}
+
 // Return the Minimum value of the heap.
 int MinValue(MinHeap* heap) {
   return heap->values[0];
@@ -60,10 +78,13 @@ int MinValue(MinHeap* heap) {
 
 int main() {
   MinHeap* heap = NewMinHeap();
-  for (int i = 500; i > 0; --i) {
+  for (int i = 10; i > 0; --i) {
     Push(heap, i);
     printf("Min Value: %d\n", MinValue(heap));
   }
+  while (heap->size > 0) {
+    int min = RemoveMin(heap);
+    printf("Removed min value: %d.  Size is now %d.", min, heap->size);
+  }
 }
-
 
